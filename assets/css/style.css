@@ -1,0 +1,31 @@
+body {
+    background-color: antiquewhite;
+}
+
+header {
+    background-color: aquamarine;
+    width: 100%;
+    text-align: center;
+}
+
+.container {
+    display: inline-block;
+    border: 2px solid #000000;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+#codigo {
+    color: #c4803b;
+}
+
+img {
+    margin: 30px 30px 30px 5px;
+}
+
+footer {
+    display: inline-block;
+    background-color: gainsboro;
+    width: 100%;
+    text-align: center;
+}

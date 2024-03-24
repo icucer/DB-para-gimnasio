@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Nr. 1</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!--fonts google-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <h1>MySQL Introducción a las bases de datos relacionales.</h1>
+        <h3>Simulación de una base de datos para un gimnasio.</h3>
+    </header>
+    <Section>
+        <H2>1. Creación y llenado de las tablas con datos.</H2>
+        <p>Este desafío nos incentiva a practicar y aplicar los conocimientos adquiridos durante la clase. <br>
+            Para iniciar deberemos crear la base de datos, en nuestro caso nos saltaremos este paso ya que está creada con anticipación.
+            De todas formas, dejaremos el comando a usar para la creación de una base de datos:</p> <br>
+        <div class="container">
+            <pre>
+                <code id="codigo">CREATE DATABASE bbdd_gimnasios;</code>
+            </pre>
+        </div>
+        <ul>
+            <li>CREATE DATABASE - comando de MySQL para la creación de una base de datos,</li>
+            <li>bbdd_gimnasios - nombre de la base de datos a crear.</li>
+        </ul> <br>
+        <p>Seguimos con el siguiente paso, indicando que usaremos dicha base de datos como el lugar de trabajo:</p> <br>
+        <div class="container">
+            <pre>
+                <code id="codigo">USE bbdd_gimnasios;</code>
+            </pre>
+        </div>
+        <ul>
+            <li>USE - comando que indica a MySQL dónde crearemos nuestras tablas o lugar de trabajo,</li>
+            <li>bbdd_gimnasios - nombre de la base de datos o nombre del lugar de trabajo.</li>
+        </ul> <br>
+        <p>A continuación, continuamos con la creación de las tablas:</p> <br>
+        <div class="container">
+            <pre>
+                <code id="codigo">
+                    -- Creacion tabla Clientes.
+                    CREATE TABLE Clientes (
+                        id INT,
+                        nombre VARCHAR(50) NOT NULL,
+                        apellido VARCHAR(50),
+                        RUT INT NOT NULL UNIQUE,
+                        correo_electronico VARCHAR(75) NOT NULL);
+                    
+                    -- Creacion tabla Matriculas.
+                    CREATE TABLE Matriculas (
+                        id_cliente INT,
+                        monto FLOAT,
+                        estado BOOLEAN,
+                        RUT_cliente INT NOT NULL);</code>
+            </pre>
+        </div>
+        <ul>
+            <li>CREATE TABLE - comando de creación de tablas en MySQL,</li>
+            <li>Clientes y Matriculas - nombres de tablas,</li>
+            <li>id, nombre, apellido, RUT, correo_electronico, id_cliente, monto, estado, RUT_cliente - columnas de tablas,</li>
+            <li>INT, VARCHAR, FLOAT, BOOLEAN - tipos de datos para cada columna,</li>
+            <li>NOT NULL, UNIQUE - son condicionales para las columnas respectivas.</li>
+        </ul>
+        <p>Se preguntarán, ¿por qué para la columna monto ocupamos el tipo FLOAT si los pesos chilenos no tienen decimales?
+            Fue hecho a propósito para modificarlo a continuación.</p> <br>
+        <img src="assets\img\Creacion_tabla_clientes.jpg" alt="Creacion tabla Clientes" title="Columnas tabla Clientes"> <br>
+        <br>
+        <img src="assets\img\Creacion_tabla_matriculas.jpg" alt="Creacion tabla Matriculas" title="Columnas tabla Matriculas"> <br>
+        <p>A continuación, usaremos los comandos para modificar las tablas creadas y agregar propiedades nuevas a las columnas:</p>
+        <div class="container">
+            <pre>
+                <code id="codigo">
+                    -- Modificación tabla Clientes, asignamos campo "id"
+                    -- como clave primaria.
+                    ALTER TABLE Clientes ADD PRIMARY KEY (id);
+                    -- modificamos el campo id que se auto complete incrementándose con uno.
+                    ALTER TABLE Clientes MODIFY COLUMN id INT AUTO_INCREMENT;
+                    -- modificamos el campo monto de FLOAT a INT
+                    ALTER TABLE Matriculas MODIFY COLUMN monto INT;</code>
+            </pre>
+        </div>
+        <ul>
+            <li>ALTER TABLE - comando de modificación de tablas en MySQL,</li>
+            <li>Clientes y Matriculas - nombres de tablas,</li>
+            <li>ADD PRIMARY KEY - comando para asignacion de claves primarias seguido del nombre de la columna entre parentezis,</li>
+            <li>MODIFY COLUMN - modificaremos la columna id para que los valores del campo se genere automaticamente incrimentandos con una unidad, para esto ocuparemos el comando AUTO_INCREMENT,</li>
+            <li>Y por ultimo modificaremos el tipo de dato que recibe columna monto de la tabla Matriculas, de FLOAT (valores con decimales) a INT (valores entero).</li>
+        </ul> <br>
+        <img src="assets/img/tabla_clientes_modificada.jpg" alt="Tabla Clientes modificada" title="Tabla Clientes modificada"> <br>
+        <img src="assets/img/tabla_matriculas_modificada.jpg" alt="Tabla Matriculas modificada" title="Tabla Matriculas modificada"> <br>
+        <p>Nota: podemos observar que el tipo de dato en la columna monto ya no es FLOAT se cambio a INT.</p>
+        <br>
+        <p>En seguida continuamos con llenado o poblado de la tabla Clientes:</p> <br>
+        <div class="container">
+            <pre>
+                <code id="codigo">
+                    -- Ingreso de los registros, tabla Clientes.
+                    INSERT INTO Clientes
+                        (nombre, apellido, RUT, correo_electronico)
+                    VALUES
+                        ('Cliente 1', 'Apellido cliente 1', '999999999', 'cliente1@email.com'),
+                        ('Cliente 2', 'Apellido cliente 2', '888888888', 'cliente2@email.com'),
+                        ('Cliente 3', 'Apellido cliente 3', '777777777', 'cliente3@email.com'),
+                        ('Cliente 4', 'Apellido cliente 4', '666666666', 'cliente4@email.com'),
+                        ('Cliente 5', 'Apellido cliente 5', '555555555', 'cliente5@email.com');
+                </code>
+            </pre>
+        </div>
+        <ul>
+            <li>INSERT INTO - comando de insercion de datos en MySQL, seguido del nombre de la tabla con cual trabajaremos,</li>
+            <li>(nombre, apellido, RUT, correo_electronico) - entre parentezis indicaremos las columnas que recibiran los valores,</li>
+            <li>VALUES - con el siguente comando indicamos que proporcionaremos los valores de las columnas,</li>
+            <li>y por ultimo entre parentezis indicamos los valores si son de tipo cadena se presentan entre comillas y cada valor se separa por una coma dejare un ejemplo a continuacion,</li>
+            <li>Ejemplo: <br>
+                ('Cliente 1', 'Apellido cliente 1', '999999999', 'cliente1@email.com'), <br>
+                ('Cliente 5', 'Apellido cliente 5', '555555555', 'cliente5@email.com');
+            </li>
+        </ul>
+        <img src="assets\img\ingreso_datos_clientes.jpg" alt="Ingreso de datos tabla Clientes" title="Ingreso de datos tabla Clientes"> <br>
+        <p>En el siguiente punto preparamos el llenado o poblado de la tabla Matriculas:</p> <br>
+        <div class="container">
+            <pre>
+                <code id="codigo">
+                    -- Actualizas el campo id_cliente en la tabla Matriculas,
+                    -- mediante comparaciones de RUT_cliente en tabla Matriculas
+                    -- con el RUT en tabla Clientes.
+                    UPDATE Matriculas AS m
+                    INNER JOIN Clientes AS c ON m.RUT_cliente = c.RUT
+                    SET m.id_cliente = c.id;
+                </code>
+            </pre>
+        </div>
+        <ul>
+            <li>UPDATE Matriculas AS m - el significado de siguente comando es que se modificara la tabla Matriculas asignandole un alias(sobrenombre)</li>
+            <li>INNER JOIN - se utiliza para combinar registros de mas tablas,</li>
+            <li>Clientes AS c - denominaremos la tabla Clientes con alias c,</li>
+            <li>ON m.RUT_cliente = c.RUT - y aca esta la condicion, donde RUT_cliente en tabla Matriculas es igual a RUT en tabla Clientes,</li>
+            <li>SET m.id_cliente = c.id; - por ultimo indicamos con el comando SET que asignaremos el id_cliente en tabla Matriculas desde campo id tabla Clientes.</li>
+        </ul>
+        <p>Nota: estamos realizando este paso para autocompletar la columna id_cliente en tabla Matriculas desde columna id que se autogenero en tabla Clientes, en base al comparacion del RUT del cliente. Con esto eliminamos la manipulacion del campo id y id_cliente para evitar el error humano y conservar la integridad de los datos ya que funccionan como una clave primaria.</p>
+        <p>En seguida continuamos con llenado o poblado de la tabla Matriculas:</p> <br>
+        <div class="container">
+            <pre>
+                <code id="codigo">
+                    -- Ingreso de los registros, tabla Matricula.
+                    INSERT INTO Matriculas
+                        (Matriculas.id_cliente, monto, estado, RUT_cliente)
+                    VALUES
+                        ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '999999999'),'40000', True, '999999999'),
+                        ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '888888888'),'40000', False, '888888888'),
+                        ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '555555555'),'55000', True, '555555555'),
+                        ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '777777777'),'35000', True, '777777777'),
+                        ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '666666666'),'60000', False, '666666666');
+                </code>
+            </pre>
+        </div>
+        <ul>
+            <li>INSERT INTO - comando de insercion de datos en MySQL, seguido del nombre de la tabla con cual trabajaremos,</li>
+            <li>(nombre, apellido, RUT, correo_electronico) - entre parentezis indicaremos las columnas que recibiran los valores,</li>
+            <li>VALUES - con el siguente comando indicamos que proporcionaremos los valores de las columnas,</li>
+            <li>y por ultimo entre parentezis indicamos los valores si son de tipo cadena se presentan entre comillas y cada valor se separa por una coma dejare un ejemplo a continuacion,</li>
+            <li>Ejemplo: <br>
+                ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '999999999'),'40000', True, '999999999'), <br>
+                ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '666666666'),'60000', False, '666666666');
+            </li>
+            <li>(SELECT c.id FROM Clientes AS c WHERE c.RUT = '999999999') - la siguente expresion justamente coresponde a lo esplicado en el punto anterior se asigna el id_cliente en tabla Matriculas desde columna id en tabla Clientes donde el rut es igual a '999999999'</li>
+        </ul>
+        <br>
+        <img src="assets\img\ingreso_datos_matriculas.jpg" alt="Ingreso de datos tabla Matriculas" title="Ingreso de datos tabla Matriculas"> <br>
+    </Section>
+    <section>
+        <H2>2. Creacion y ejecucion de consultas a la base de datos.</H2>
+        <ol>
+            <li>
+                <p>En la siguente consulta seleccionaremos los registros relacionados utilizando el comando INNER JOIN:</p> <br>
+                <div class="container">
+                    <pre>
+                        <code id="codigo">
+                            -- Seleccionar los registros relacionados utilizando comando
+                            -- INNER JOIN
+                            SELECT correo_electronico, RUT, monto, estado FROM Clientes
+                            INNER JOIN Matriculas ON Clientes.id = Matriculas.id_cliente;
+                        </code>
+                    </pre>
+                </div>
+                <ul>
+                    <li>SELECT correo_electronico, RUT, monto, estado - como se puede apreciar con el comando SELECT indicamos que se seleccionaran los siguentes campos correo_electronico, RUT, monto y estado</li>
+                    <li>FROM Clientes INNER JOIN Matriculas - con el comando FROM indicaremos de donde haremos la seleccion de los datos, y la respuesta es desde Clientes en union (INNER JOIN) con Matriculas</li>
+                    <li>ON Clientes.id = Matriculas.id_cliente; - y por ultimo indicamos la condicion donde coincidan los id en tabla Clientes con id_cliente en tabla Matriculas,</li>
+                </ul>
+                <img src="assets/img/registros_relacionados.jpg" alt="Seleccionar registros relacionados" title="Seleccionar registros relacionados">
+            </li>
+            <li>
+                <p>Ordenaremos los resultados obtenidos en la consulta anterior de forma ascendente:</p> <br>
+                <div class="container">
+                    <pre>
+                        <code id="codigo">
+                            -- Ordenar los resultados del comando INNER JOIN de forma ascendente.
+                            SELECT correo_electronico, id, monto, estado FROM Clientes
+                            INNER JOIN Matriculas ON Clientes.id = Matriculas.id_cliente
+                            ORDER BY Matriculas.monto;
+                        </code>
+                    </pre>
+                </div>
+                <ul>
+                    <li>Evitaremos los comentarios del codigo de la consulta anterior para no repetirnos y veremos el proceso de ordenar los resultados,</li>
+                    <li>ORDER BY Matriculas.monto; - con el comando ORDER BY indicaremos que queremos ordenar segun el monto desde tabla Matriculas.</li>
+                </ul>
+                <p>Nota: pudemos observar que no indicamos como queremos ordenar los datos ya que por defecto el orden es de forma ascendente.</p>
+                <img src="assets/img/ordenar_resultados.jpg" alt="Ordenar los resultados del comando INNER JOIN de forma ascendente" title="Ordenar los resultados del comando INNER JOIN de forma ascendente">
+            </li>
+            <li>
+                <p>En este paso insertaremos matriculas nuevas a RUT existente:</p> <br>
+                <div class="container">
+                    <pre>
+                        <code id="codigo">
+                            -- Agregamos matricula nueva a un RUT existente.
+                            INSERT INTO Matriculas
+                                (Matriculas.id_cliente, monto, estado, RUT_cliente)
+                            VALUES
+                                ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '999999999'),'325000', True, '999999999'),
+                                ((SELECT c.id FROM Clientes AS c WHERE c.RUT = '555555555'),'32500', False, '555555555');
+                        </code>
+                    </pre>
+                </div>
+                <p>Nota: evitaremos los comentarios para no ser rebundantes, ya que en los puntos anteriores tenemos explicacion del siguente proceso.</p>
+                <img src="assets/img/ingreso_matriculas_nuevas.jpg" alt="Agregamos matricula nueva a un RUT existente" title="Agregamos matricula nueva a un RUT existente">
+            </li>
+            <li>
+                <p>Haremos consulta para identificar los clientes con mas de una matricula:</p> <br>
+                <div class="container">
+                    <pre>
+                        <code id="codigo">
+                            -- Seleccionar los clientes con mas de una matricula
+                            SELECT id_cliente, COUNT(monto) AS 'nr. de registros', SUM(monto) AS 'monto total'
+                            FROM Matriculas
+                            GROUP BY id_cliente
+                            HAVING COUNT(monto) >= 2;
+                        </code>
+                    </pre>
+                </div>
+                <ul>
+                    <li>SELECT id_cliente, COUNT(monto) AS 'nr. de registros', SUM(monto) AS 'monto total' - En la siguente instruccion con el SELECT seleccionamos campo id_cliente, con la funccion COUNT identificamos los id que tienen mas de una matricula (esta funccion es un contador), y a continuacion con funccion SUM sumamos los montos de las matriculas para presentar el valor total. Tambien podemos apreciar que integramos alias a cada una de las funcciones.</li>
+                    <li>FROM Matriculas - todos los datos necesarios vienen desde tabla Matriculas,</li>
+                    <li>GROUP BY id_cliente - y los agruparemos segun el campo id_cliente con la instruccion GROUP BY,</li>
+                    <li>HAVING COUNT(monto) >= 2; - y por ultimo haremos una comparacion, si el contador esta mayor o igual a 2 con la instruccion HAVING (funcciona como un filtro)</li>
+                </ul>
+                <img src="assets/img/mas_de_una_matricula.jpg" alt="Seleccionar los clientes con mas de una matricula" title="Seleccionar los clientes con mas de una matricula">
+            </li>
+            <li>
+                <p>Como podemos ver en la consulta anterior se seleccionaron elementos pero sin mucha informacion, en la siguente consulta seleccionaremos y agruparemos los clientes que tienen una o mas matriculas:</p> <br>
+                <div class="container">
+                    <pre>
+                        <code id="codigo">
+                            -- Seleccionar y agrupar la informacion de los clientes
+                            -- con una o mas matriculas.
+                            SELECT Clientes.id, correo_electronico, RUT, estado, COUNT(id_cliente) AS 'nr. de registros', SUM(monto) AS 'monto total'
+                            FROM Clientes
+                            INNER JOIN Matriculas ON Clientes.id = Matriculas.id_cliente
+                            GROUP BY Clientes.id, correo_electronico, RUT, Matriculas.estado;
+                        </code>
+                    </pre>
+                </div>
+                <p>Explicacion de la consulta: seleccionamos todo los campos incluso usamos un contador y la funccion que realiza el total de las matriculas desde ambas tablas Clientes y Matriculas con la condicional revisaremos los id y id_cliente y los agrupamos segun distintos campos.</p>
+                <img src="assets/img/agrupar_informacion.jpg" alt="Seleccionar y agrupar la informacion de los clientes con una o mas matriculas" title="Seleccionar y agrupar informacion con una o mas matriculas">
+            </li>
+            <li>
+                <p>Haremos consulta para identificar los clientes con mas de una matricula con mismo estado:</p> <br>
+                <div class="container">
+                    <pre>
+                        <code id="codigo">
+                            -- Seleccionar registros que tienen mas de una matricula con mismos estados
+                            SELECT Clientes.id, correo_electronico, RUT, Matriculas.estado, COUNT(id_cliente) AS 'nr. de registros', SUM(monto) AS 'monto total'
+                            FROM Clientes
+                            INNER JOIN Matriculas ON Clientes.id = Matriculas.id_cliente
+                            GROUP BY Clientes.id, correo_electronico, RUT, Matriculas.estado
+                            HAVING COUNT(id_cliente) >= 2;
+
+                        </code>
+                    </pre>
+                </div>
+                <p>Explicacion de la consulta: en la siguente consulta en comparacion con la consulta anterior se agrega la opcion de filtrar los resultados que tienen mas de una matricula con mismo estado.</p>
+                <img src="assets/img/mas_de_una_matricula_mismo_estado.jpg" alt="seleccionamos registros que tienen mas de una matricula con mismos estados" title="Seleccionar matriculas con mismos estados">
+            </li>
+            <li>
+                <p>Seleccionaremos registros con mas de una matricula con distintos estados:</p> <br>
+                <div class="container">
+                    <pre>
+                        <code id="codigo">
+                            -- Seleccionar registros que tienen mas de una matricula con mismo y distintos estados
+                            SELECT Clientes.id, correo_electronico, RUT, COUNT(id_cliente) AS 'nr. de registros', SUM(monto) AS 'monto total'
+                            FROM Clientes
+                            INNER JOIN Matriculas ON Clientes.id = Matriculas.id_cliente
+                            GROUP BY Clientes.id, correo_electronico, RUT
+                            HAVING COUNT(id_cliente) >= 2;
+                        </code>
+                    </pre>
+                </div>
+                <p>Explicacion de la consulta: la diferencia de la consulta anterior eliminamos los campos del estado.</p>
+                <img src="assets/img/mas_de_una_matricula_distintos_estados.jpg" alt="Seleccionar registros que tienen mas de una matricula con mismo y distintos estados" title="Seleccionar matricula con mismo y distintos estados">
+            </li>
+        </ol>
+    </section>
+    <footer>
+        <h5>Trabajo realizado por Ion C. 24/03/2024</h5>
+    </footer>
+</body>
+</html>
