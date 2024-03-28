@@ -1,3 +1,6 @@
+-- Creacion de Base de Datos
+CREATE DATABASE curso53;
+
 -- Apuntamos a la base de datos a ocupar.
 USE curso53;
 
